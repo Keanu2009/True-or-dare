@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Truth or Dare</title>
+    <style>
+   * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to right, #ff7e5f, #feb47b);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 15px;
+    padding: 20px;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+h1 {
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+#output {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+}
+
+ button {
+    background-color: #feb47b; /* Base color */
+    color: #fff; /* Text color */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 1em;
+    cursor: pointer;
+    margin: 5px;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s; /* Smooth transitions */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Initial shadow */
+}
+
+button:hover {
+    background-color: #ff7e5f; /* Change color on hover */
+    transform: scale(1.05); /* Scale up */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Deeper shadow */
+}
+
+button:active {
+    transform: scale(0.95); /* Scale down on click */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Reduce shadow */
+}
+
+button:focus {
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.5); /* Custom focus outline */
+}
+ 
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 1.5em;
+    }
+
+    button {
+        width: 100%;
+        padding: 15px;
+    }
+}
+  .typing {
+    display: inline-block;
+    border-right: 2px solid #feb47b; /* Cursor effect */
+    white-space: nowrap;
+    overflow: hidden;
+    animation: typing 4s steps(30, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    from {
+        width: 0; /* Start with no width */
+    }
+    to {
+        width: 100%; /* End with full width */
+    }
+}
+
+@keyframes blink-caret {
+    from, to {
+        border-color: transparent; /* No border */
+    }
+    50% {
+        border-color: #feb47b; /* Show border */
+    }
+}
+  
+  
+  
+  
+  </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Truth or Dare</h1>
+         <div id="output"><span class="typing">Choose Truth or Dare!</span></div>
+        <button id="truthBtn">Truth</button>
+        <button id="dareBtn">Dare</button>
+        <button id="resetBtn">Reset</button>
+    </div>
+
+  
+  
+    <script>
+  const truths = [
+    "What is your biggest fear?",
+    "What is the most embarrassing thing you've ever done?",
+    "If you could change one thing about yourself, what would it be?",
+    
+    "What is your biggest fear?",
+    "What is the most embarrassing thing you've ever done?",
+    "If you could change one thing about yourself, what would it be?",
+    "Who is your secret crush?",
+    "What is your biggest pet peeve?",
+    "Have you ever lied to get out of a situation?",
+    "What is your most cherished memory?",
+    "What is your guilty pleasure?",
+    "What is the weirdest dream you’ve ever had?",
+    "What is the biggest secret you’ve kept from your parents?",
+    "What is one thing you cannot live without?",
+    "If you could only eat one food for the rest of your life, what would it be?",
+    "Who in this room would you switch lives with for a day?",
+    "What is the most ridiculous thing you've ever bought?",
+    "What’s the worst date you’ve ever been on?",
+    "What’s the biggest lie you’ve ever told?",
+    "What is your most embarrassing moment?",
+    "If you could be famous, what would you want to be famous for?",
+    "What is the most trouble you've ever gotten into?",
+    "Have you ever had a crush on a teacher?",
+    "What’s your biggest insecurity?",
+    "If you could relive any moment in your life, what would it be?",
+    "Have you ever stolen anything?",
+    "What is something you’re afraid of that you’ve never told anyone?",
+    "What’s the most outrageous thing you've ever done?",
+    "What is your biggest regret?",
+    "What is something you wish you could change about your past?",
+    "Who was your first crush?",
+    "What’s the most romantic thing you’ve ever done?",
+    "Have you ever cheated on a test?",
+    "What is your biggest dream?",
+    "If you could only speak one word for the rest of your life, what would it be?",
+    "What is something that annoys you the most?",
+    "What is your weirdest habit?",
+    "What is your biggest fantasy?",
+    "Have you ever been in love?",
+    "What’s one thing you’ve always wanted to try but haven’t?",
+    "What is your biggest turn-off?",
+    "What is the best gift you’ve ever received?",
+    "What is one thing you’d like to be remembered for?",
+    "What is the most embarrassing thing in your room?",
+    "What is the worst thing you've ever done to someone?",
+    "If you could time travel, where would you go?",
+    "What is your biggest fear about getting older?",
+    "What’s the craziest thing you’ve done in public?",
+    "Who is your favorite fictional character and why?",
+    "What would you do if you won the lottery?",
+    "What’s your biggest dream in life?",
+    "Have you ever said 'I love you' without meaning it?",
+    "What is one lie you tell most often?",
+    "If you could change one thing about your personality, what would it be?",
+    "What is your favorite childhood memory?",
+    "What is the most difficult thing you’ve ever done?",
+    "What’s the meanest thing you’ve ever said to someone?",
+    "What’s the biggest risk you’ve ever taken?",
+    "If you could only listen to one song for the rest of your life, what would it be?",
+    "What’s your biggest achievement?",
+    "What is something you wish you could do better?",
+    "What is the most spontaneous thing you’ve ever done?",
+    "What is your dream job?",
+    "What is your favorite movie and why?",
+    "What is the weirdest food you’ve ever eaten?",
+    "What is something you’re really good at?",
+    "If you could change one thing about the world, what would it be?",
+    "What is the best advice you’ve ever received?",
+    "What is your biggest hope for the future?",
+    "If you could have dinner with any three people, dead or alive, who would they be?",
+    "What is something you’ve never told anyone?",
+    "What is your biggest fear when it comes to relationships?",
+    "What is your favorite thing about yourself?",
+    "What’s the most illegal thing you’ve ever done?",
+    "If you could live in any time period, when would it be?",
+    "What is something you would never do?",
+    "What is your biggest insecurity about your appearance?",
+    "What is the best compliment you’ve ever received?",
+    "What’s your biggest failure?",
+    "If you could have any superpower, what would it be?",
+    "What is your most treasured possession?",
+    "What’s the longest you've ever gone without sleep?",
+    "What is your worst habit?",
+    "If you could master one skill instantly, what would it be?",
+    "What’s the craziest thing you’ve done for love?",
+    "What is one thing you can’t stand about yourself?",
+    "What’s your most memorable birthday?",
+    "What is one thing you’ve done that you’re proud of?",
+    "What is something you wish you could change about your life?",
+    "What is your biggest aspiration?",
+    "What is your favorite quote and why?",
+    "What is the best thing about being your age?",
+    "What is your biggest disappointment?",
+    "What would you do if you had 24 hours to live?",
+    "What is your dream vacation?",
+    "What is your biggest regret in life?",
+    "If you could have any animal as a pet, what would it be?",
+    "What is your favorite hobby?",
+    "What is one thing you would change about your family?",
+    "What is your favorite thing to do on a rainy day?",
+    "If you could be any character from a book or movie, who would you be?",
+    "What is your biggest fear about the future?",
+    "What is the hardest thing you’ve ever had to do?",
+    "What’s your favorite thing about your best friend?",
+    "What is something that makes you happy?",
+    "What is the worst haircut you've ever had?",
+    "If you could erase one memory, what would it be?",
+    "What is one thing you’ve always wanted to ask me?",
+    "What is your favorite thing to do on the weekends?",
+    "What is your favorite way to relax?",
+    "What is your most prized possession?",
+    "What is your biggest fear about your career?",
+    "If you could live anywhere in the world, where would it be?",
+    "What is the most thoughtful gift you’ve ever received?",
+    "What’s the best thing that has happened to you this year?",
+    "What is your favorite way to spend time with friends?",
+    "What is your most embarrassing childhood memory?",
+    "What’s your favorite meal to cook?",
+    "What is one thing you want to achieve this year?",
+    "What is the most unusual job you’ve ever had?",
+    "What is your most annoying habit?",
+    "If you could change your name, what would you choose?",
+    "What is your favorite way to express yourself?",
+    "What is the best thing about your job?",
+    "What is one thing you would change about your life if you could?",
+    "What is your favorite childhood toy?",
+    "What is your biggest regret regarding your education?",
+    "What is your most cherished family tradition?",
+    "What is one thing you are most grateful for?",
+    "What is your favorite way to stay active?",
+    "If you could go back to school, what would you study?",
+    "What is your favorite way to give back to the community?",
+    "What is your biggest dream for your career?",
+    "What is your most valuable lesson learned?",
+    "What is one thing you would like to learn more about?",
+    "What is your favorite way to celebrate special occasions?",
+    "What is your biggest inspiration in life?",
+    "What is something that you think everyone should try at least once?",
+    "What is your favorite thing about your home?",
+    "What is your biggest fear about love?",
+    "What is one thing you wish you could do if money was no object?",
+    "What is your favorite form of self-care?",
+    "If you could go anywhere in the world, where would you go?",
+    "What is your favorite book and why?",
+    "What is your biggest goal for the next five years?",
+    "What is the craziest thing you've ever done on a dare?",
+    "What is one thing you wish you could tell your younger self?",
+    "What is your favorite childhood memory with your family?",
+    "What is something that always makes you laugh?",
+    "What is your biggest pet peeve about technology?",
+    "What is one thing you want to be remembered for?",
+    "What is your biggest guilty pleasure TV show?",
+    "If you could have any job in the world, what would it be?",
+    "What is one thing you would change about your job?",
+    "What is your favorite thing to do during the summer?",
+    "What is one thing you wish you could change about society?",
+    "What is your most unusual talent?",
+    "What is one thing you are passionate about?",
+    "What is your biggest dream as a child?",
+    "What is the best advice you've ever been given?",
+    "What is your favorite type of music?",
+    "What is your biggest fear about getting married?",
+    "What is one thing you would like to improve about yourself?",
+    "What is your biggest achievement in school?",
+    "What is something you’ve done that you regret?",
+    "What is your favorite season and why?",
+    
+];
+
+const dares = [
+    "Dance with no music for 1 minute.",
+    "Try to lick your elbow.",
+    "Do an impression of your favorite celebrity.",
+    
+    "What is your biggest fear?",
+    "What is the most embarrassing thing you've ever done?",
+    "If you could change one thing about yourself, what would it be?",
+    "Who is your secret crush?",
+    "What is your biggest pet peeve?",
+    "Have you ever lied to get out of a situation?",
+    "What is your most cherished memory?",
+    "What is your guilty pleasure?",
+    "What is the weirdest dream you’ve ever had?",
+    "What is the biggest secret you’ve kept from your parents?",
+    "What is one thing you cannot live without?",
+    "If you could only eat one food for the rest of your life, what would it be?",
+    "Who in this room would you switch lives with for a day?",
+    "What is the most ridiculous thing you've ever bought?",
+    "What’s the worst date you’ve ever been on?",
+    "What’s the biggest lie you’ve ever told?",
+    "What is your most embarrassing moment?",
+    "If you could be famous, what would you want to be famous for?",
+    "What is the most trouble you've ever gotten into?",
+    "Have you ever had a crush on a teacher?",
+    "What’s your biggest insecurity?",
+    "If you could relive any moment in your life, what would it be?",
+    "Have you ever stolen anything?",
+    "What is something you’re afraid of that you’ve never told anyone?",
+    "What’s the most outrageous thing you've ever done?",
+    "What is your biggest regret?",
+    "What is something you wish you could change about your past?",
+    "Who was your first crush?",
+    "What’s the most romantic thing you’ve ever done?",
+    "Have you ever cheated on a test?",
+    "What is your biggest dream?",
+    "If you could only speak one word for the rest of your life, what would it be?",
+    "What is something that annoys you the most?",
+    "What is your weirdest habit?",
+    "What is your biggest fantasy?",
+    "Have you ever been in love?",
+    "What’s one thing you’ve always wanted to try but haven’t?",
+    "What is your biggest turn-off?",
+    "What is the best gift you’ve ever received?",
+    "What is one thing you’d like to be remembered for?",
+    "What is the most embarrassing thing in your room?",
+    "What is the worst thing you've ever done to someone?",
+    "If you could time travel, where would you go?",
+    "What is your biggest fear about getting older?",
+    "What’s the craziest thing you’ve done in public?",
+    "Who is your favorite fictional character and why?",
+    "What would you do if you won the lottery?",
+    "What’s your biggest dream in life?",
+    "Have you ever said 'I love you' without meaning it?",
+    "What is one lie you tell most often?",
+    "If you could change one thing about your personality, what would it be?",
+    "What is your favorite childhood memory?",
+    "What is the most difficult thing you’ve ever done?",
+    "What’s the meanest thing you’ve ever said to someone?",
+    "What’s the biggest risk you’ve ever taken?",
+    "If you could only listen to one song for the rest of your life, what would it be?",
+    "What’s your biggest achievement?",
+    "What is something you wish you could do better?",
+    "What is the most spontaneous thing you’ve ever done?",
+    "What is your dream job?",
+    "What is your favorite movie and why?",
+    "What is the weirdest food you’ve ever eaten?",
+    "What is something you’re really good at?",
+    "If you could change one thing about the world, what would it be?",
+    "What is the best advice you’ve ever received?",
+    "What is your biggest hope for the future?",
+    "If you could have dinner with any three people, dead or alive, who would they be?",
+    "What is something you’ve never told anyone?",
+    "What is your biggest fear when it comes to relationships?",
+    "What is your favorite thing about yourself?",
+    "What’s the most illegal thing you’ve ever done?",
+    "If you could live in any time period, when would it be?",
+    "What is something you would never do?",
+    "What is your biggest insecurity about your appearance?",
+    "What is the best compliment you’ve ever received?",
+    "What’s your biggest failure?",
+    "If you could have any superpower, what would it be?",
+    "What is your most treasured possession?",
+    "What’s the longest you've ever gone without sleep?",
+    "What is your worst habit?",
+    "If you could master one skill instantly, what would it be?",
+    "What’s the craziest thing you’ve done for love?",
+    "What is one thing you can’t stand about yourself?",
+    "What’s your most memorable birthday?",
+    "What is one thing you’ve done that you’re proud of?",
+    "What is something you wish you could change about your life?",
+    "What is your biggest aspiration?",
+    "What is your favorite quote and why?",
+    "What is the best thing about being your age?",
+    "What is your biggest disappointment?",
+    "What would you do if you had 24 hours to live?",
+    "What is your dream vacation?",
+    "What is your biggest regret in life?",
+    "If you could have any animal as a pet, what would it be?",
+    "What is your favorite hobby?",
+    "What is one thing you would change about your family?",
+    "What is your favorite thing to do on a rainy day?",
+    "If you could be any character from a book or movie, who would you be?",
+    "What is your biggest fear about the future?",
+    "What is the hardest thing you’ve ever had to do?",
+    "What’s your favorite thing about your best friend?",
+    "What is something that makes you happy?",
+    "What is the worst haircut you've ever had?",
+    "If you could erase one memory, what would it be?",
+    "What is one thing you’ve always wanted to ask me?",
+    "What is your favorite thing to do on the weekends?",
+    "What is your favorite way to relax?",
+    "What is your most prized possession?",
+    "What is your biggest fear about your career?",
+    "If you could live anywhere in the world, where would it be?",
+    "What is the most thoughtful gift you’ve ever received?",
+    "What’s the best thing that has happened to you this year?",
+    "What is your favorite way to spend time with friends?",
+    "What is your most embarrassing childhood memory?",
+    "What’s your favorite meal to cook?",
+    "What is one thing you want to achieve this year?",
+    "What is the most unusual job you’ve ever had?",
+    "What is your most annoying habit?",
+    "If you could change your name, what would you choose?",
+    "What is your favorite way to express yourself?",
+    "What is the best thing about your job?",
+    "What is one thing you would change about your life if you could?",
+    "What is your favorite childhood toy?",
+    "What is your biggest regret regarding your education?",
+    "What is your most cherished family tradition?",
+    "What is one thing you are most grateful for?",
+    "What is your favorite way to stay active?",
+    "If you could go back to school, what would you study?",
+    "What is your favorite way to give back to the community?",
+    "What is your biggest dream for your career?",
+    "What is your most valuable lesson learned?",
+    "What is one thing you would like to learn more about?",
+    "What is your favorite way to celebrate special occasions?",
+    "What is your biggest inspiration in life?",
+    "What is something that you think everyone should try at least once?",
+    "What is your favorite thing about your home?",
+    "What is your biggest fear about love?",
+    "What is one thing you wish you could do if money was no object?",
+    "What is your favorite form of self-care?",
+    "If you could go anywhere in the world, where would you go?",
+    "What is your favorite book and why?",
+    "What is your biggest goal for the next five years?",
+    "What is the craziest thing you've ever done on a dare?",
+    "What is one thing you wish you could tell your younger self?",
+    "What is your favorite childhood memory with your family?",
+    "What is something that always makes you laugh?",
+    "What is your biggest pet peeve about technology?",
+    "What is one thing you want to be remembered for?",
+    "What is your biggest guilty pleasure TV show?",
+    "If you could have any job in the world, what would it be?",
+    "What is one thing you would change about your job?",
+    "What is your favorite thing to do during the summer?",
+    "What is one thing you wish you could change about society?",
+    "What is your most unusual talent?",
+    "What is one thing you are passionate about?",
+    "What is your biggest dream as a child?",
+    "What is the best advice you've ever been given?",
+    "What is your favorite type of music?",
+    "What is your biggest fear about getting married?",
+    "What is one thing you would like to improve about yourself?",
+    "What is your biggest achievement in school?",
+    "What is something you’ve done that you regret?",
+   
+];
+
+document.getElementById('truthBtn').addEventListener('click', () => {
+    const randomTruth = truths[Math.floor(Math.random() * truths.length)];
+    document.getElementById('output').innerText = randomTruth;
+});
+
+document.getElementById('dareBtn').addEventListener('click', () => {
+    const randomDare = dares[Math.floor(Math.random() * dares.length)];
+    document.getElementById('output').innerText = randomDare;
+});
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+    document.getElementById('output').innerText = 'Choose Truth or Dare!';
+});
+  document.getElementById('truthBtn').addEventListener('click', () => {
+    const randomTruth = truths[Math.floor(Math.random() * truths.length)];
+    document.getElementById('output').innerHTML = `<span class="typing">${randomTruth}</span>`;
+});
+
+document.getElementById('dareBtn').addEventListener('click', () => {
+    const randomDare = dares[Math.floor(Math.random() * dares.length)];
+    document.getElementById('output').innerHTML = `<span class="typing">${randomDare}</span>`;
+});
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+    document.getElementById('output').innerHTML = `<span class="typing">Choose Truth or Dare!</span>`;
+});
+  
+  
+  
+  
+  
+  </script>
+</body>
+</html>
